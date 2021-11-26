@@ -82,6 +82,7 @@ variable_decl:
 *)
 typ:
 | INT { Int }
+| BOOL { Bool }
 ;
 
 (* Déclaration de fonction.
