@@ -1,0 +1,14 @@
+(** @canonical Dune__exe.Minic *)
+module Minic = Dune__exe__Minic
+
+(** @canonical Dune__exe.Minic_ast *)
+module Minic_ast = Dune__exe__Minic_ast
+
+(** @canonical Dune__exe.Minic_lexer *)
+module Minic_lexer = Dune__exe__Minic_lexer
+
+(** @canonical Dune__exe.Minic_parser *)
+module Minic_parser = Dune__exe__Minic_parser
+
+(** @canonical Dune__exe.Minic_typechecker *)
+module Minic_typechecker = Dune__exe__Minic_typechecker

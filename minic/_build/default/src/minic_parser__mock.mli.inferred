@@ -1,0 +1,24 @@
+type token =
+    SET
+  | SEMI
+  | RPAR
+  | RETURN
+  | LPAR
+  | INT
+  | IDENT of string
+  | EOF
+  | END
+  | CST of int
+  | BOOL_CST of bool
+  | BEGIN
+val menhir_begin_marker : int
+val xv_variable_decl : string * Minic_ast.typ * int
+val xv_typ : Minic_ast.typ
+val xv_program : Minic_ast.prog
+val xv_list_instruction_ : Minic_ast.seq
+val xv_instruction : Minic_ast.instr
+val xv_function_decl : Minic_ast.fun_def
+val xv_expression : Minic_ast.expr
+val xv_declaration_list :
+  (string * Minic_ast.typ * int) list * Minic_ast.fun_def list
+val menhir_end_marker : int

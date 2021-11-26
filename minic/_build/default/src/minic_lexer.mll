@@ -1,5 +1,4 @@
 {
-
   open Lexing
   open Minic_parser
 
@@ -16,6 +15,19 @@
     fun s ->
       try  Hashtbl.find h s
       with Not_found -> IDENT(s)
+
+  let print_token = function
+  | IDENT s -> Printf.printf "IDENT %s\n" s
+  | INT -> Printf.printf "INT\n"
+  | BOOL_CST b -> Printf.printf "BOOL_CST %b\n" b
+  | RETURN -> Printf.printf "RETURN\n"
+  | SEMI ->Printf.printf "SEMI\n"
+  | SET -> Printf.printf "SET\n"
+  | LPAR -> Printf.printf "LPAR\n"
+  | RPAR -> Printf.printf "RPAR\n"
+  | BEGIN -> Printf.printf "BEGIN\n"
+  | END -> Printf.printf "END\n"
+  | _ -> Printf.printf "###\n"
         
 }
 
@@ -53,3 +65,15 @@ rule token = parse
       { failwith ("Unknown character : " ^ (lexeme lexbuf)) }
   | eof
       { EOF }
+
+{
+  let lexbuf = Lexing.from_channel(open_in Sys.argv.(1))
+        
+  let rec loop () =
+    let t = token lexbuf in
+    if t <> EOF
+    then begin print_token t; loop () end
+      
+  let _ =
+    loop ()
+}
