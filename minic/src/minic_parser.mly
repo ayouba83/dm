@@ -109,6 +109,8 @@ instruction:
    À COMPLÉTER
 *)
 expression:
+| eu=expression PLUS ed=expression { Add(eu, ed) }
+| eu=expression MUL ed=expression { Mul(eu, ed) }
 | n=CST { Cst(n) }
 | b=BOOL_CST { BCst(b) }
 ;
