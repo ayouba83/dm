@@ -40,6 +40,16 @@
 %start program
 %type <Minic_ast.prog> program
 
+%left    ORL
+%left    ANDL
+%left    OR
+%left XOR
+%left AND
+%left EQ NE
+%left LT GT LE GE
+%left PLUS SUB
+%left MUL DIV
+%right   INCR DECR
 %%
 
 (* Un programme est une liste de déclarations.
@@ -82,6 +92,7 @@ variable_decl:
 *)
 typ:
 | INT { Int }
+| BOOL { Bool }
 ;
 
 (* Déclaration de fonction.
@@ -110,4 +121,9 @@ instruction:
 expression:
 | n=CST { Cst(n) }
 | b=BOOL_CST { BCst(b) }
+| a=expression MUL b=expression { Mul(a, b) }
+| a=expression PLUS b=expression { Add(a, b) }
+| a=expression LT b=expression { Lt(a, b) }
+| n=IDENT   { Get(n) }
+| f=IDENT LPAR params=list(expression) RPAR { Call(f, params) }
 ;
