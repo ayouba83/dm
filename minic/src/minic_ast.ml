@@ -9,11 +9,28 @@ type typ =
 type expr =
   | Cst of int
   | BCst of bool
-  | Add of expr * expr
-  | Mul of expr * expr
-  | Lt  of expr * expr
   | Get of string
   | Call of string * expr list
+ (* opérateurs arithemétiques *)
+  | Add of expr * expr
+  | Sub of expr * expr
+  | Mul of expr * expr
+  | Div of expr * expr
+  | Opp of expr
+ (* opérateurs de comparaison *)
+  | Lt  of expr * expr
+  | Gt  of expr * expr
+  | Eq  of expr * expr
+  | Ne  of expr * expr
+  | Le  of expr * expr
+  | Ge  of expr * expr
+ (* opérateurs logiques (booléens) *)
+  | Not of expr
+  | Andl of expr * expr
+  | Orl of expr * expr
+ (* sucres sytaxiques *)
+  | Incr of string
+  | Decr of string
 
 (* Représentation des instructions et séquences. *)
 type instr =
