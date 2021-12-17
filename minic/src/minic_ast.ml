@@ -35,7 +35,7 @@ type expr =
 (* Représentation des instructions et séquences. *)
 type instr =
   | Putchar of expr
-  | Set of string * expr
+  | Set of string * expr      (*let x = 4* in *)
   | If  of expr * seq * seq
   | While of expr * seq
   | Return of expr
