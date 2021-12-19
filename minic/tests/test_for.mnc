@@ -1,0 +1,17 @@
+int n = 0;
+
+void test(int x, int y){
+    int i;
+    int j;
+    for(i=0; i!=x; i++){
+        putchar(i);
+        for(j=i; j<y; j++){
+            putchar(j+i);
+        }
+    }
+    putchar(45);
+}
+
+int main(){
+    test(4, 10);
+}
