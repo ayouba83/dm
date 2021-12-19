@@ -10,6 +10,7 @@ type token =
   | SEMI
   | RPAR
   | RETURN
+  | PUTCHAR
   | PLUS
   | ORL
   | OR
@@ -33,6 +34,7 @@ type token =
   | DIV
   | DECR
   | CST of (int)
+  | COMA
   | BOOL_CST of (bool)
   | BOOL
   | BEGIN
