@@ -16,7 +16,7 @@
 %token LPAR RPAR BEGIN END
 
 (* mots clés, affectation, fin d'instruction *)
-%token RETURN IF ELSE WHILE SET SEMI PUTCHAR, COMA
+%token RETURN IF ELSE WHILE SET SEMI PUTCHAR COMA FOR
 
 (* types *)
 %token INT BOOL VOID
@@ -96,7 +96,7 @@ locale_dcl:
 (* declaration de paramètres de fonction *)
 param_list:
 | (* empty *) { [] }
-| p=param_dcl { [p] } 
+| p=param_dcl { [p] } (* à corriger*)
 | vd=param_dcl COMA dl=param_list { vd :: dl }
 ;
 param_dcl:
@@ -128,14 +128,16 @@ function_decl:
    À COMPLÉTER => fait
 *)
 instruction:
-| PUTCHAR LPAR e=expression RPAR SEMI { Putchar(e) }
-| id=IDENT SET e=expression SEMI { Set(id, e) }
+| instr=instr_form SEMI { instr }
 | IF LPAR e=expression RPAR BEGIN s1=list(instruction) END ELSE BEGIN s2=list(instruction) END { If(e, s1, s2) }
 | WHILE LPAR e=expression RPAR BEGIN s=list(instruction) END { While(e, s) }
+| FOR LPAR init=instr_form SEMI test=expression SEMI iter=instr_form RPAR BEGIN s=list(instruction) END { For(init, test, iter, s) }
 | RETURN e=expression SEMI { Return(e) }
-| e=expression SEMI { Expr(e) }
 ;
-
+instr_form:
+| PUTCHAR LPAR e=expression RPAR { Putchar(e) }
+| id=IDENT SET e=expression { Set(id, e) }
+| e=expression { Expr(e) }
 
 (* Expressions.
 
@@ -162,6 +164,7 @@ expression:
 | id=IDENT DECR { Decr( id ) }
 | n=IDENT   { Get(n) }
 | f=IDENT LPAR params=args_list RPAR { Call(f, params) }
+| LPAR e=expression RPAR { Par(e) }
 ;
 
 (*declaration de paramètres effectifs de fonction*)

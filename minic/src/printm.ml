@@ -2,7 +2,7 @@ open Minic_ast
 
 let print (programme: prog) =
   let level = ref 1 in
-  let rec decal n =
+  let decal n =
     let x = ref n in
     while !x <> 0 do
       Printf.printf "    ";
@@ -16,7 +16,7 @@ let print (programme: prog) =
     | Void -> "void"
   in
   (*affichage des variables globales du programme*)
-  List.iter (fun (x, t, v) -> Printf.printf " int %s = %n;\n" x v) programme.globals;
+  List.iter (fun (x, _, v) -> Printf.printf " int %s = %n;\n" x v) programme.globals;
   
   (* affichage des fonctions du programme *)
   let affiche_fun (def: fun_def) =
@@ -32,7 +32,7 @@ let print (programme: prog) =
     Printf.printf "){\n";
 
     (* afficher les variables locales *)
-    List.iter (fun (x, t) -> Printf.printf "\t %s %s;\n" (typ_to_str t) x) def.locals;
+    List.iter (fun (x, t) -> decal !level; Printf.printf "%s %s;\n" (typ_to_str t) x) def.locals;
 
     (* affiche une expression *)
     let rec affiche_expr = function
@@ -70,9 +70,15 @@ let print (programme: prog) =
       |[e] -> affiche_expr e
       |e::fin -> affiche_expr e; Printf.printf ", "; affiche_params_eff fin
     in
+
+    let affiche_instr_form = function
+    | Putchar(e) ->  Printf.printf "putchar("; affiche_expr e; Printf.printf ")"
+    | Set(var, e) -> Printf.printf "%s = " var; affiche_expr e
+    | Expr e -> affiche_expr e
+    |_-> failwith "not_instr_form"
+    in
+
     let rec affiche_instr = function
-    | Putchar(e) -> decal !level; Printf.printf "putchar("; affiche_expr e; Printf.printf ");\n"
-    | Set(var, e) -> decal !level; Printf.printf "%s = " var; affiche_expr e; Printf.printf ";\n"   (*let x = 4* in *)
     | If(cond, s1, s2) -> begin decal !level;
                         Printf.printf "if("; affiche_expr cond; Printf.printf"){\n";
                         level := !level+1; affiche_seq s1; level := !level-1;
@@ -84,8 +90,15 @@ let print (programme: prog) =
                         level := !level+1; affiche_seq s; level := !level-1;
                         decal !level; Printf.printf "}\n"
                       end
+    | For(init, test, iter, s) -> begin decal !level;
+                      Printf.printf "for("; affiche_instr_form init; Printf.printf "; ";
+                      affiche_expr test; Printf.printf "; "; affiche_instr_form iter; 
+                      Printf.printf"){\n";
+                      level := !level+1; affiche_seq s; level := !level-1;
+                      decal !level; Printf.printf "}\n"
+                    end
     | Return e -> decal !level; Printf.printf "return "; affiche_expr e; Printf.printf ";\n"
-    | Expr e -> decal !level; affiche_expr e; Printf.printf ";\n"
+    | instr -> decal !level; affiche_instr_form instr; Printf.printf ";\n"
     and affiche_seq s =
         List.iter affiche_instr s;
     in

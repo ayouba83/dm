@@ -11,6 +11,7 @@ type expr =
   | BCst of bool
   | Get of string
   | Call of string * expr list
+  | Par of expr
  (* opérateurs arithemétiques *)
   | Add of expr * expr
   | Sub of expr * expr
@@ -38,6 +39,7 @@ type instr =
   | Set of string * expr      (*let x = 4* in *)
   | If  of expr * seq * seq
   | While of expr * seq
+  | For of instr*expr * instr*seq
   | Return of expr
   | Expr of expr
 and seq = instr list
