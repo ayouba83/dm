@@ -44,6 +44,8 @@ fun s ->
     | BEGIN       -> Printf.printf "BEGIN\n"
     | END         -> Printf.printf "END\n"
     | PUTCHAR     -> Printf.printf "PUTCHAR \n"
+    | RBRK        -> Printf.printf "RBRACKET \n"
+    | LBRK        -> Printf.printf "LBRACKET \n"
   (* opérateurs arithemétiques *)
     | MUL   -> Printf.printf "MUL\n"
     | DIV   -> Printf.printf "DIV\n"
@@ -76,7 +78,7 @@ fun s ->
 
 (* Règles auxiliaires *)
 let digit = ['0'-'9']
-let number = ['-']? digit+
+let number = digit+
 let alpha = ['a'-'z' 'A'-'Z']
 let ident = alpha (alpha | '_' | digit)*
 
@@ -106,6 +108,10 @@ rule token = parse
       { BEGIN }
   | "}"
       { END }
+  | "]"
+      { RBRK }
+  | "["
+      { LBRK }
 (* opérateurs arithemétiques *)
   | "*"
       { MUL }
