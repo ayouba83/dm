@@ -1,0 +1,8 @@
+int PARAM = 5;
+
+int f(int x) {
+  return 5*3+7+5;
+}
+bool f2(){
+  return (1==2)==false;
+}

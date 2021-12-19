@@ -1,0 +1,20 @@
+int i = 10;
+int find(int n){
+    int m;
+    int j;
+    int cpt;
+    m = 0;
+    while(m!=n){
+        cpt++;
+        j = 0;
+        while(j != i){
+            cpt = cpt + 2;
+        }
+        m++;
+    }
+    return cpt;
+}
+
+int main(){
+    return find(4);
+}
