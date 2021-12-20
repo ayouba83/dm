@@ -125,7 +125,7 @@ let typecheck_program (prog: prog) =
                       |_-> ()
                     end
             else  failwith "type error_if_test"   end
-      | While(test, s) -> 
+      |While(test, s) -> 
             begin match type_expr test with
               | Bool -> typecheck_seq s
               | _->failwith "type error_while" 
@@ -140,6 +140,13 @@ let typecheck_program (prog: prog) =
       | Putchar e -> begin match type_expr e with
                 |Int -> ()
                 |_-> failwith "type error_putchar" end
+      |For(init, test, iter, s) -> 
+                typecheck_instr init;
+                typecheck_instr iter;
+                begin match type_expr test with
+                | Bool -> typecheck_seq s
+                | _->failwith "type error_for" 
+              end
     and typecheck_seq s =
       List.iter typecheck_instr s        
     in

@@ -5,7 +5,7 @@ int find(int n){
     int cpt;
     m = 0;
     while(m!=n){
-        cpt++
+        cpt++;
         j = 0;
         while(j != i){
             cpt = cpt + 2;

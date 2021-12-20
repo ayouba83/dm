@@ -11,10 +11,9 @@
 %token <int> CST
 %token <bool> BOOL_CST
 %token <string> IDENT
-%token <typ_elem array> TAB
 
 (* delimitants *)
-%token LPAR RPAR BEGIN END RBRK LBRK
+%token LPAR RPAR BEGIN END
 
 (* mots clés, affectation, fin d'instruction *)
 %token RETURN IF ELSE WHILE SET SEMI PUTCHAR COMA FOR
@@ -87,8 +86,6 @@ declaration_list:
 *)
 variable_decl:
 | t=typ x=IDENT SET n=CST SEMI { (x, t, n) }
-| t=typ x=IDENT SET b=BOOL_CST SEMI { (x, t, b) }
-| t=typ x=IDENT LBRK RBRK SET BEGIN s=seq END { (x, t, a) }
 (*| t=typ x=IDENT SEMI { (x, t) }*)
 ;
 
@@ -110,15 +107,10 @@ param_dcl:
 
    À COMPLÉTER => fait
 *)
-typ_elem:
+typ:
 | INT { Int }
 | BOOL { Bool }
-| TAB { Tab }
-;
-
-typ:
 | VOID { Void }
-| t=typ_elem { t }
 ;
 
 (* Déclaration de fonction.
@@ -142,12 +134,10 @@ instruction:
 | FOR LPAR init=instr_form SEMI test=expression SEMI iter=instr_form RPAR BEGIN s=list(instruction) END { For(init, test, iter, s) }
 | RETURN e=expression SEMI { Return(e) }
 ;
-
 instr_form:
 | PUTCHAR LPAR e=expression RPAR { Putchar(e) }
 | id=IDENT SET e=expression { Set(id, e) }
 | e=expression { Expr(e) }
-;
 
 (* Expressions.
 

@@ -27,6 +27,7 @@ type token =
   | IDENT of (string)
   | GT
   | GE
+  | FOR
   | EQ
   | EOF
   | END

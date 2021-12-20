@@ -3,3 +3,4 @@ Minic_ast
 Minic_lexer
 Minic_parser
 Minic_typechecker
+Printm

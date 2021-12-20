@@ -12,3 +12,6 @@ module Minic_parser = Dune__exe__Minic_parser
 
 (** @canonical Dune__exe.Minic_typechecker *)
 module Minic_typechecker = Dune__exe__Minic_typechecker
+
+(** @canonical Dune__exe.Printm *)
+module Printm = Dune__exe__Printm

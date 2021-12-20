@@ -39,6 +39,7 @@ type instr =
   | Set of string * expr      (*let x = 4* in *)
   | If  of expr * seq * seq
   | While of expr * seq
+  | For of instr*expr * instr*seq
   | Return of expr
   | Expr of expr
 and seq = instr list

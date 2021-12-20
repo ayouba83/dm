@@ -17,7 +17,8 @@ List.iter (fun (s, k) -> Hashtbl.add h s k)
     "if",       IF;
     "else",     ELSE;
     "while",    WHILE;
-    "putchar", PUTCHAR
+    "putchar", PUTCHAR;
+    "for",      FOR
     ];
 fun s ->
     try  Hashtbl.find h s
@@ -33,6 +34,7 @@ fun s ->
     | BOOL_CST b  -> Printf.printf "BOOL_CST %b\n" b
     | RETURN      -> Printf.printf "RETURN\n"
     | WHILE       -> Printf.printf "WHILE\n"
+    | FOR       -> Printf.printf "FOR\n"
     | IF       -> Printf.printf "IF\n"
     | ELSE       -> Printf.printf "ELSE\n"
     | SEMI        -> Printf.printf "SEMI\n"

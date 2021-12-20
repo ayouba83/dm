@@ -24,6 +24,7 @@ type token =
   | IDENT of string
   | GT
   | GE
+  | FOR
   | EQ
   | EOF
   | END
@@ -48,6 +49,7 @@ val xv_locale_dcl : string * Minic_ast.typ
 val xv_list_locale_dcl_ : (string * Minic_ast.typ) list
 val xv_list_instruction_ : Minic_ast.seq
 val xv_instruction : Minic_ast.instr
+val xv_instr_form : Minic_ast.instr
 val xv_function_decl : Minic_ast.fun_def
 val xv_expression : Minic_ast.expr
 val xv_declaration_list :

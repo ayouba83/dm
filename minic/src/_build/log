@@ -1,10 +1,10 @@
 # dune build
 # OCAMLPARAM: unset
-# Workspace root: /home/deba/Documents/DM_compilation/dm/minic/src
-$ /usr/bin/nproc > /tmp/dune7a63b0.output 2> /dev/null
+# Workspace root: /home/deba/Documents/DM_compilation/minicv0/dm/minic/src
+$ /usr/bin/nproc > /tmp/dunebf0fa3.output 2> /dev/null
 # Auto-detected concurrency: 4
 # disable binary cache
-$ /usr/bin/ocamlc.opt -config > /tmp/dune60f649.output
+$ /usr/bin/ocamlc.opt -config > /tmp/dunefe34f5.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -25,18 +25,18 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune60f649.output
 #    map
 #      {
 #      "CAML_LD_LIBRARY_PATH" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/src/_build/install/default/lib/stublibs"
+#        "/home/deba/Documents/DM_compilation/minicv0/dm/minic/src/_build/install/default/lib/stublibs"
 #      ; "DUNE_CONFIGURATOR" : "/usr/bin/ocamlc.opt"
 #      ; "INSIDE_DUNE" : "1"
 #      ;
 #      "MANPATH" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/src/_build/install/default/bin"
+#        "/home/deba/Documents/DM_compilation/minicv0/dm/minic/src/_build/install/default/bin"
 #      ;
 #      "OCAMLFIND_IGNORE_DUPS_IN" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/src/_build/install/default/lib"
+#        "/home/deba/Documents/DM_compilation/minicv0/dm/minic/src/_build/install/default/lib"
 #      ;
 #      "OCAMLPATH" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/src/_build/install/default/lib"
+#        "/home/deba/Documents/DM_compilation/minicv0/dm/minic/src/_build/install/default/lib"
 #      ; "OCAML_COLOR" : "always"
 #      ; "OPAMCOLOR" : "always"
 #      }

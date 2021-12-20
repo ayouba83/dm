@@ -1,11 +1,7 @@
 (* Représentation des types. *)
-type typ_elem =
+type typ =
   | Int
   | Bool
-  | Tab of typ_elem array
-
-type typ =
-  | typ_elem
   | Void
 
 (* Représentation des expressions.
@@ -16,8 +12,6 @@ type expr =
   | Get of string
   | Call of string * expr list
   | Par of expr
- (* tableau *)
-  | Array of string * typ_elem * typ_elem array
  (* opérateurs arithemétiques *)
   | Add of expr * expr
   | Sub of expr * expr

@@ -18,7 +18,8 @@ List.iter (fun (s, k) -> Hashtbl.add h s k)
     "if",       IF;
     "else",     ELSE;
     "while",    WHILE;
-    "putchar", PUTCHAR
+    "putchar", PUTCHAR;
+    "for",      FOR
     ];
 fun s ->
     try  Hashtbl.find h s
@@ -34,6 +35,7 @@ fun s ->
     | BOOL_CST b  -> Printf.printf "BOOL_CST %b\n" b
     | RETURN      -> Printf.printf "RETURN\n"
     | WHILE       -> Printf.printf "WHILE\n"
+    | FOR       -> Printf.printf "FOR\n"
     | IF       -> Printf.printf "IF\n"
     | ELSE       -> Printf.printf "ELSE\n"
     | SEMI        -> Printf.printf "SEMI\n"
@@ -72,7 +74,7 @@ fun s ->
   | _ -> Printf.printf "###\n"
         
 
-# 76 "minic_lexer.ml"
+# 78 "minic_lexer.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base =
    "\000\000\223\255\224\255\229\255\002\000\001\000\002\000\030\000\
@@ -221,186 +223,186 @@ let rec token lexbuf =
 and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 86 "minic_lexer.mll"
+# 88 "minic_lexer.mll"
       ( new_line lexbuf; token lexbuf )
-# 227 "minic_lexer.ml"
+# 229 "minic_lexer.ml"
 
   | 1 ->
-# 88 "minic_lexer.mll"
+# 90 "minic_lexer.mll"
       ( token lexbuf )
-# 232 "minic_lexer.ml"
+# 234 "minic_lexer.ml"
 
   | 2 ->
 let
-# 89 "minic_lexer.mll"
+# 91 "minic_lexer.mll"
               n
-# 238 "minic_lexer.ml"
+# 240 "minic_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 90 "minic_lexer.mll"
+# 92 "minic_lexer.mll"
       ( CST(int_of_string n) )
-# 242 "minic_lexer.ml"
+# 244 "minic_lexer.ml"
 
   | 3 ->
 let
-# 91 "minic_lexer.mll"
+# 93 "minic_lexer.mll"
              id
-# 248 "minic_lexer.ml"
+# 250 "minic_lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 92 "minic_lexer.mll"
+# 94 "minic_lexer.mll"
       ( keyword_or_ident id )
-# 252 "minic_lexer.ml"
+# 254 "minic_lexer.ml"
 
   | 4 ->
-# 94 "minic_lexer.mll"
+# 96 "minic_lexer.mll"
       ( SEMI )
-# 257 "minic_lexer.ml"
+# 259 "minic_lexer.ml"
 
   | 5 ->
-# 96 "minic_lexer.mll"
+# 98 "minic_lexer.mll"
       ( COMA )
-# 262 "minic_lexer.ml"
+# 264 "minic_lexer.ml"
 
   | 6 ->
-# 98 "minic_lexer.mll"
+# 100 "minic_lexer.mll"
       ( SET )
-# 267 "minic_lexer.ml"
+# 269 "minic_lexer.ml"
 
   | 7 ->
-# 100 "minic_lexer.mll"
+# 102 "minic_lexer.mll"
       ( LPAR )
-# 272 "minic_lexer.ml"
+# 274 "minic_lexer.ml"
 
   | 8 ->
-# 102 "minic_lexer.mll"
+# 104 "minic_lexer.mll"
       ( RPAR )
-# 277 "minic_lexer.ml"
+# 279 "minic_lexer.ml"
 
   | 9 ->
-# 104 "minic_lexer.mll"
+# 106 "minic_lexer.mll"
       ( BEGIN )
-# 282 "minic_lexer.ml"
+# 284 "minic_lexer.ml"
 
   | 10 ->
-# 106 "minic_lexer.mll"
+# 108 "minic_lexer.mll"
       ( END )
-# 287 "minic_lexer.ml"
+# 289 "minic_lexer.ml"
 
   | 11 ->
-# 109 "minic_lexer.mll"
+# 111 "minic_lexer.mll"
       ( MUL )
-# 292 "minic_lexer.ml"
+# 294 "minic_lexer.ml"
 
   | 12 ->
-# 111 "minic_lexer.mll"
+# 113 "minic_lexer.mll"
       ( DIV )
-# 297 "minic_lexer.ml"
+# 299 "minic_lexer.ml"
 
   | 13 ->
-# 113 "minic_lexer.mll"
+# 115 "minic_lexer.mll"
       ( PLUS )
-# 302 "minic_lexer.ml"
+# 304 "minic_lexer.ml"
 
   | 14 ->
-# 116 "minic_lexer.mll"
+# 118 "minic_lexer.mll"
       ( SUB )
-# 307 "minic_lexer.ml"
+# 309 "minic_lexer.ml"
 
   | 15 ->
-# 119 "minic_lexer.mll"
+# 121 "minic_lexer.mll"
       ( LT )
-# 312 "minic_lexer.ml"
+# 314 "minic_lexer.ml"
 
   | 16 ->
-# 121 "minic_lexer.mll"
+# 123 "minic_lexer.mll"
       ( GT )
-# 317 "minic_lexer.ml"
+# 319 "minic_lexer.ml"
 
   | 17 ->
-# 123 "minic_lexer.mll"
+# 125 "minic_lexer.mll"
       ( EQ )
-# 322 "minic_lexer.ml"
+# 324 "minic_lexer.ml"
 
   | 18 ->
-# 125 "minic_lexer.mll"
+# 127 "minic_lexer.mll"
       ( NE )
-# 327 "minic_lexer.ml"
+# 329 "minic_lexer.ml"
 
   | 19 ->
-# 127 "minic_lexer.mll"
+# 129 "minic_lexer.mll"
       ( LE )
-# 332 "minic_lexer.ml"
+# 334 "minic_lexer.ml"
 
   | 20 ->
-# 129 "minic_lexer.mll"
+# 131 "minic_lexer.mll"
       ( GE )
-# 337 "minic_lexer.ml"
+# 339 "minic_lexer.ml"
 
   | 21 ->
-# 132 "minic_lexer.mll"
+# 134 "minic_lexer.mll"
       ( NOT )
-# 342 "minic_lexer.ml"
+# 344 "minic_lexer.ml"
 
   | 22 ->
-# 134 "minic_lexer.mll"
+# 136 "minic_lexer.mll"
       ( ANDL )
-# 347 "minic_lexer.ml"
+# 349 "minic_lexer.ml"
 
   | 23 ->
-# 136 "minic_lexer.mll"
+# 138 "minic_lexer.mll"
       ( ORL )
-# 352 "minic_lexer.ml"
+# 354 "minic_lexer.ml"
 
   | 24 ->
-# 139 "minic_lexer.mll"
+# 141 "minic_lexer.mll"
       ( AND )
-# 357 "minic_lexer.ml"
+# 359 "minic_lexer.ml"
 
   | 25 ->
-# 141 "minic_lexer.mll"
+# 143 "minic_lexer.mll"
       ( OR )
-# 362 "minic_lexer.ml"
+# 364 "minic_lexer.ml"
 
   | 26 ->
-# 143 "minic_lexer.mll"
+# 145 "minic_lexer.mll"
       ( XOR )
-# 367 "minic_lexer.ml"
+# 369 "minic_lexer.ml"
 
   | 27 ->
-# 145 "minic_lexer.mll"
+# 147 "minic_lexer.mll"
       ( LSL )
-# 372 "minic_lexer.ml"
+# 374 "minic_lexer.ml"
 
   | 28 ->
-# 147 "minic_lexer.mll"
+# 149 "minic_lexer.mll"
       ( ASR )
-# 377 "minic_lexer.ml"
+# 379 "minic_lexer.ml"
 
   | 29 ->
-# 150 "minic_lexer.mll"
+# 152 "minic_lexer.mll"
       ( INCR )
-# 382 "minic_lexer.ml"
+# 384 "minic_lexer.ml"
 
   | 30 ->
-# 152 "minic_lexer.mll"
+# 154 "minic_lexer.mll"
       ( DECR )
-# 387 "minic_lexer.ml"
+# 389 "minic_lexer.ml"
 
   | 31 ->
-# 155 "minic_lexer.mll"
+# 157 "minic_lexer.mll"
       ( failwith ("Unknown character : " ^ (lexeme lexbuf)) )
-# 392 "minic_lexer.ml"
+# 394 "minic_lexer.ml"
 
   | 32 ->
-# 157 "minic_lexer.mll"
+# 159 "minic_lexer.mll"
       ( EOF )
-# 397 "minic_lexer.ml"
+# 399 "minic_lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_token_rec lexbuf __ocaml_lex_state
 
 ;;
 
-# 159 "minic_lexer.mll"
+# 161 "minic_lexer.mll"
  
   let lexbuf = Lexing.from_channel(open_in Sys.argv.(1))
         
@@ -412,4 +414,4 @@ let
   let _ =
     loop ()
 
-# 416 "minic_lexer.ml"
+# 418 "minic_lexer.ml"
