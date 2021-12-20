@@ -150,9 +150,11 @@ let typecheck_program (prog: prog) =
       (* Cas d'une instruction [return]. On vérifie que le type correspond au
          type de retour attendu par la fonction dans laquelle on se trouve. *)
       | Return(e) -> begin let t = type_expr  fdef  local_env param_env e in
-                            if t <> fdef.return then
+                  match t with
+                  |Tab(typ) -> if Ptr(typ) <> fdef.return then failwith "type error_return"
+                  |_-> if t <> fdef.return then
                               failwith "type error_return"
-                     end
+                end
 
       | If(test, s1, s2) -> begin 
           if type_expr  fdef  local_env param_env test = Bool
