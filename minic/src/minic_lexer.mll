@@ -70,7 +70,11 @@ fun s ->
     | INCR -> Printf.printf "INCR\n"
     | DECR -> Printf.printf "DECR\n"
     | COMA -> Printf.printf "COMA\n"
-  | _ -> Printf.printf "###\n"
+    | PTRB -> Printf.printf "PTRB\n"
+    | PTRB -> Printf.printf "PTRB\n"
+    | RBRK -> Printf.printf "RBRK\n"
+    | LBRK -> Printf.printf "LBRK\n"
+    | _ -> Printf.printf "###\n"
         
 }
 
@@ -79,6 +83,8 @@ let digit = ['0'-'9']
 let number = ['-']? digit+
 let alpha = ['a'-'z' 'A'-'Z']
 let ident = alpha (alpha | '_' | digit)*
+let ptr_int = ['i']['n']['t'][' ' '\t' '\r']*['*']
+let ptr_bool = ['b']['o']['o']['l'][' ' '\t' '\r']*['*']
 
 (* Règles de reconnaissance 
    À COMPLÉTER
@@ -92,6 +98,10 @@ rule token = parse
       { CST(int_of_string n) }
   | ident as id
       { keyword_or_ident id }
+  | ptr_bool
+        { PTRB }
+  | ptr_int
+        {PTRI} 
   | ";"
       { SEMI }
   | ","
@@ -102,6 +112,10 @@ rule token = parse
       { LPAR }
   | ")"
       { RPAR }
+  | "]"
+      { RBRK }
+  | "["
+      { LBRK }
   | "{"
       { BEGIN }
   | "}"

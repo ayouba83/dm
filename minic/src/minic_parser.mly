@@ -13,7 +13,7 @@
 %token <string> IDENT
 
 (* delimitants *)
-%token LPAR RPAR BEGIN END
+%token LPAR RPAR BEGIN END RBRK LBRK PTRB PTRI
 
 (* mots clés, affectation, fin d'instruction *)
 %token RETURN IF ELSE WHILE SET SEMI PUTCHAR COMA FOR
@@ -85,14 +85,11 @@ declaration_list:
    À COMPLÉTER => fait
 *)
 variable_decl:
-| t=typ x=IDENT SET n=CST SEMI { (x, t, n) }
-(*| t=typ x=IDENT SEMI { (x, t) }*)
+| typ=typ var=IDENT SET init=expression SEMI { (var, typ, Some(init)) }
+| typ=typ tab=IDENT LBRK RBRK SET BEGIN s=args_list END SEMI { let init = Array.of_list s in (tab, Tab(typ), (Some (Array(init)))) }
+| typ=typ var=IDENT SEMI { (var, typ, None) }
 ;
 
-(* declaration de variables locales *)
-locale_dcl:
-|t=typ x=IDENT SEMI { (x, t) }
-;
 (* declaration de paramètres de fonction *)
 param_list:
 | (* empty *) { [] }
@@ -101,6 +98,7 @@ param_list:
 ;
 param_dcl:
 |t=typ x=IDENT { (x, t) }
+|t=typ x=IDENT LBRK RBRK { (x, Tab(t)) }
 ;
 
 (* Indication de type.
@@ -111,6 +109,8 @@ typ:
 | INT { Int }
 | BOOL { Bool }
 | VOID { Void }
+| PTRB { Ptr(Bool) }
+| PTRI { Ptr(Int) }
 ;
 
 (* Déclaration de fonction.
@@ -120,9 +120,10 @@ typ:
    À COMPLÉTER => fait
 *)
 function_decl:
-| t=typ f=IDENT LPAR opt=param_list RPAR BEGIN vars=list(locale_dcl) s=list(instruction) END
+| t=typ f=IDENT LPAR opt=param_list RPAR BEGIN vars=list(variable_decl) s=list(instruction) END
     { { name=f; params=opt; return=t; locals=vars; code=s } }
 ;
+
 (* Instructions.
 
    À COMPLÉTER => fait
@@ -146,6 +147,7 @@ instr_form:
 expression:
 | n=CST { Cst(n) }
 | b=BOOL_CST { BCst(b) }
+| BEGIN l=args_list END { let arr = Array.of_list l in Array(arr) }
 | a=expression MUL  b=expression { Mul(a, b) }
 | a=expression PLUS b=expression { Add(a, b) }
 | a=expression DIV  b=expression { Div(a, b) } (* à modifier pour traiter le cas de division par zero *)
