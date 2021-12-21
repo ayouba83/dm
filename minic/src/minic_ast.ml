@@ -35,9 +35,14 @@ type expr =
  (* sucres sytaxiques *)
   | Incr of string
   | Decr of string
+  (* operation sur tableau *)
+  | Elm of expr * string (* accès à l'élément d'indice i *)
+  | Len of string (* renvoie la longueur d'un tableau *)
+  
 
 (* Représentation des instructions et séquences. *)
 type instr =
+  | Insert of expr * expr * string (* inserer un élément à une possition donnée dans un tableau*)
   | Putchar of expr
   | Set of string * expr      (*let x = 4* in *)
   | If  of expr * seq * seq

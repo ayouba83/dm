@@ -4,6 +4,7 @@ let () =
   let lexbuf = Lexing.from_channel in_channel in
   let ast = Minic_parser.program Minic_lexer.token lexbuf in
   close_in in_channel;
+  (* Affichage de l'Ast *)
   Printm.print ast;
   Minic_typechecker.typecheck_program ast;
   Printf.printf "Successfully checked program %s\n" file;

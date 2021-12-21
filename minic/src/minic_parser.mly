@@ -16,7 +16,7 @@
 %token LPAR RPAR BEGIN END RBRK LBRK PTRB PTRI
 
 (* mots clés, affectation, fin d'instruction *)
-%token RETURN IF ELSE WHILE SET SEMI PUTCHAR COMA FOR
+%token RETURN IF ELSE WHILE SET SEMI PUTCHAR COMA FOR ELM INSERT LEN
 
 (* types *)
 %token INT BOOL VOID
@@ -136,6 +136,7 @@ instruction:
 | RETURN e=expression SEMI { Return(e) }
 ;
 instr_form:
+| tab=IDENT LBRK pos=expression RBRK SET e=expression { Insert(pos, e, tab) }
 | PUTCHAR LPAR e=expression RPAR { Putchar(e) }
 | id=IDENT SET e=expression { Set(id, e) }
 | e=expression { Expr(e) }
@@ -167,6 +168,8 @@ expression:
 | n=IDENT   { Get(n) }
 | f=IDENT LPAR params=args_list RPAR { Call(f, params) }
 | LPAR e=expression RPAR { Par(e) }
+| tab=IDENT LBRK n=expression RBRK { Elm(n, tab) }
+| LEN LPAR tab=IDENT RPAR    { Len(tab) }
 ;
 
 (*declaration de paramètres effectifs de fonction*)

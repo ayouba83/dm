@@ -117,7 +117,19 @@ let typecheck_program (prog: prog) =
           if t = Int
             then Int
             else type_error (type_to_string t) "Int" "Incrementation"
-    in
+      (* opérateurs sur tableau *)
+      | Elm(i, t) -> let t1 = type_expr  fdef  local_env param_env i in
+                      if (t1=Int) then
+                      let t2 = type_expr  fdef  local_env param_env (Get t) in
+                      match t2 with
+                      |Tab(typ) -> typ
+                      |_-> failwith "type error_Elm: Tab was expected %s is found" (type_to_string t2) 
+                      else failwith "type error_Elm_pos: was expected %s is found" (type_to_string t1)
+      | Len(tab) -> let t = type_expr  fdef  local_env param_env (Get tab) in
+                      match t with
+                      |Tab(_) -> Int
+                      |_-> failwith "type error_Elm: Tab was expected %s is found" (type_to_string t) 
+      in
 
   (* Vérification du bon typage d'une fonction.
      C'est une fonction locale : on a accès à [prog] et à [global_env]. *)
@@ -194,6 +206,10 @@ let typecheck_program (prog: prog) =
       | Putchar e -> begin match type_expr  fdef  local_env param_env e with
                 |Int -> ()
                 |_-> failwith "type error_putchar" end
+      | Insert(pos, e, tab) -> if (type_expr  fdef  local_env param_env e) <> Int
+                                || Tab(type_expr  fdef  local_env param_env e)
+                                <> (type_expr  fdef  local_env param_env (Get tab))
+                               then failwith "type error_Insert"
       |For(init, test, iter, s) -> 
                 typecheck_instr init;
                 typecheck_instr iter;
@@ -214,7 +230,7 @@ let typecheck_program (prog: prog) =
     match v with
     | None -> ()
     | Some va ->
-        if ((type_expr  fdef  e1 e1 va)=t) || ((type_expr  fdef  e1 e1 va)=Void) then ()
+        if ((type_expr  fdef  e1 e1 va)=t) || ((type_expr  fdef  e1 e1 va)=Tab(Void)) then ()
         else failwith "type error_variable: "
   in
   List.iter (fun x -> line := !line +1; pred x ) prog.globals;

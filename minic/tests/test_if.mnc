@@ -1,6 +1,6 @@
 int i = 5;
 int test(int n, bool y){
-    if(n/2==0){
+    if(n/2==true){
         return 1;
     } else {
         return 0;

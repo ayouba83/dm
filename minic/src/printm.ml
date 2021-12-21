@@ -50,6 +50,8 @@ let print (programme: prog) =
  (* sucres sytaxiques *)
   | Incr(x) -> Printf.printf "%s++" x
   | Decr(x) -> Printf.printf "%s--" x
+  | Elm(pos, tab) -> Printf.printf "%s" tab; Printf.printf "["; affiche_expr pos; Printf.printf "]";
+  | Len(tab) -> Printf.printf "sizeof(%s)" tab;
 and affiche_params_eff = function
   |[] -> Printf.printf ""
   |[e] -> affiche_expr e
@@ -60,8 +62,8 @@ in
   
   let affiche_var_init (x, t, v) =
     begin match t with
-    |Int |Bool |Void |Ptr(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf "= "; affiche_expr v;
-    |Tab(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf "[]"; Printf.printf "= "; affiche_expr v;
+    |Int |Bool |Void |Ptr(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf " = "; affiche_expr v;
+    |Tab(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf "[]"; Printf.printf " = "; affiche_expr v;
     end
   in 
   let affiche_var_not_init (x, t) =
@@ -95,6 +97,8 @@ in
     List.iter (fun x -> decal !level; affiche_var x; Printf.printf ";\n") def.locals;
 
     let affiche_instr_form = function
+    | Insert(pos, e, tab) -> Printf.printf "%s" tab; Printf.printf "["; affiche_expr pos;
+                             Printf.printf "]" ; Printf.printf "= "; affiche_expr e;
     | Putchar(e) ->  Printf.printf "putchar("; affiche_expr e; Printf.printf ")"
     | Set(var, e) -> Printf.printf "%s = " var; affiche_expr e
     | Expr e -> affiche_expr e

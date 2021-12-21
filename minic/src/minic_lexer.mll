@@ -18,7 +18,8 @@ List.iter (fun (s, k) -> Hashtbl.add h s k)
     "else",     ELSE;
     "while",    WHILE;
     "putchar", PUTCHAR;
-    "for",      FOR
+    "for",      FOR;
+    "sizeof",       LEN
     ];
 fun s ->
     try  Hashtbl.find h s
@@ -74,6 +75,7 @@ fun s ->
     | PTRB -> Printf.printf "PTRB\n"
     | RBRK -> Printf.printf "RBRK\n"
     | LBRK -> Printf.printf "LBRK\n"
+    | LEN -> Printf.printf "LEN\n"
     | _ -> Printf.printf "###\n"
         
 }

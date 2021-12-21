@@ -1,0 +1,25 @@
+int PARAM[] = {1, 2, 3};
+int y = 2;
+int t[] = {1, 2, 3};
+int b[] = {};
+ int* fact(int n, int y[], bool c[]){
+    int x;
+    int i;
+    if((2 + 2) == n){
+        n = 2;
+        while(i == 0){
+            n--;
+            x = (2+ 5 + 6 + 8) * 10;
+            if(n < 3){
+                n = n / 2;
+            } else{
+                n = 0;
+                t[5] = 0;
+            }
+            y[1] = 2;
+        }
+        return t;
+    } else{
+        return b;
+    }
+ }
