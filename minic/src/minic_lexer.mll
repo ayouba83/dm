@@ -61,17 +61,19 @@ fun s ->
     | NOT  -> Printf.printf "NOT\n"
     | ANDL -> Printf.printf "ANDL\n"
     | ORL  -> Printf.printf "ORL\n"
+  (*Not implemented
   (* opérateurs bit à bit *)
     | AND -> Printf.printf "AND\n"
     | OR  -> Printf.printf "OR"
     | XOR -> Printf.printf "XOR\n"
     | LSL -> Printf.printf "LSL\n"
     | ASR -> Printf.printf "ASR\n"
+  *)
   (* sucres sytaxique *)
     | INCR -> Printf.printf "INCR\n"
     | DECR -> Printf.printf "DECR\n"
     | COMA -> Printf.printf "COMA\n"
-    | PTRB -> Printf.printf "PTRB\n"
+    | PTRI -> Printf.printf "PTRI\n"
     | PTRB -> Printf.printf "PTRB\n"
     | RBRK -> Printf.printf "RBRK\n"
     | LBRK -> Printf.printf "LBRK\n"
@@ -152,6 +154,7 @@ rule token = parse
       { ANDL }
   | "||"
       { ORL } 
+  (*Not implemented
   (* opérateurs bit à bit *)
   | "&"
       { AND }
@@ -163,6 +166,7 @@ rule token = parse
       { LSL }
   | ">>"
       { ASR }
+  *)
   (* sucres sytaxique *)
   | "++"
       { INCR }
