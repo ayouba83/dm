@@ -65,7 +65,7 @@
     Nous avons réalisé un afficheur qui affiche un programme minic donné par son AST.Pour tout programme en minic bien formé, quelque soit le degré de barocité avec lequel il a été écrit, on affiche le programme de façon correcte, en passant son AST en paramètre de l'afficheur. Celà est dû à la correction des programmes que nous réalisé.
 
 ### L'interprète [minic_interpreteur_imp.ml]
-    Bien que pas terminé, car nous nous y étions pris en retard, il offre au lecteur une idée de la façon dont on exécute le programme entré, on execute les instructions dans la fonction "main" qui n'a aucun argument pour des raisons de simplification.
+    Bien que pas terminé, il offre au lecteur une idée de la façon dont on exécute le programme entré, on execute les instructions dans la fonction "main" qui n'a aucun argument pour des raisons de simplification.
     Comme le typechecker est lancé avant l'interprêteur, on a pas besoin de se préoccuper des types des expressions pour les opérateurs et lors de la recherche d'une variable dans l'environnement, on sait qu'elle existe car sinon le typechecker aurait renvoyé une erreur en voyant qu'elle n'existait pas.
 
 ## Outils pour compiler le projet:
