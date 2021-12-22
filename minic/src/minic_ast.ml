@@ -32,6 +32,10 @@ type expr =
   | Not of expr
   | Andl of expr * expr
   | Orl of expr * expr
+  (* opérateurs bit à bit *)
+  | Xor of expr * expr
+  | And of expr * expr
+  | Or of expr * expr
  (* sucres sytaxiques *)
   | Incr of string
   | Decr of string

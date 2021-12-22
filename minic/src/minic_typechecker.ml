@@ -115,7 +115,16 @@ let typecheck_program (prog: prog) =
       if t = Bool
       then Bool
       else type_error (type_to_string t) "Bool" "not"
-            
+    (* opérateurs bit à bit *)
+    | And(e1, e2) | Or(e1, e2) | Xor(e1, e2) ->
+      let t1 = type_expr fdef local_env param_env e1 in
+      let t2 = type_expr fdef local_env param_env e2 in
+      if t1 = Int 
+      then 
+        if t2 = Int
+        then Int
+        else type_error (type_to_string t2) "Int" "operation"
+      else type_error (type_to_string t1) "Int" "operation"
     (* sucres sytaxiques *)
     | Incr(e) | Decr(e) ->
       let val_e = Get e in
