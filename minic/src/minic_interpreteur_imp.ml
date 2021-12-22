@@ -11,6 +11,11 @@ type value =      (*valeur de retour du programme*)
   | BCst of bool
   | Array of expr array
 
+type Result =
+  | REnd 
+  | RContinue
+  | RReturn of value
+
 (* 
    On en profite pour placer les fonctions d'évaluation comme
    fonctions internes d'un fonction d'évaluation globale, dans
@@ -34,10 +39,10 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
     List.fold_left (fun env fonc -> Env.add fonc.name fonc env) Env.empty prog.functions
   in
 
-  let rec exec_with_locals (func : fun_def) (param_values : value list) (env : Env) : string = (*on effectue les fonction une à une qui nous retourne des valeurs *)
+  let rec exec_with_locals (func : fun_def) (param_values : value list) (glob_env : String*value) : string = (*on effectue les fonction une à une qui nous retourne des valeurs *)
     
     let local_env_params = 
-      List.fold_left (fun env ((name, _), v) -> Env.add name v env) global_env (func.params, param_values)
+      List.fold_left (fun env ((name, _), v) -> Env.add name v env) Env.empty (func.params, param_values)
     in
     
     let local_env =
@@ -51,7 +56,9 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
       | Cst n -> n
       | BCst b -> b
       | Array arr -> arr
-      | Get x -> Env.find local_env x (*le typechecker est lancé avant et dit déjà si la var n'existe pas*)
+      | Get x -> 
+        try Env.find local_env x 
+        with Not_Found -> Env.find glob_env x (*le typechecker est lancé avant et dit déjà si la var n'existe pas*)
       | Par e -> eval e
       | Add(e1, e2) ->
         let v1 = eval e1 in
@@ -111,58 +118,83 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
         let v1 = eval e1 in
         let v2 = eval e2 in
         v1 ^ v2
-      | Incr(x) -> (Env.find local_env x)+1
-      | Decr(x) -> (Env.find local_env x)-1
-      | Elm(e, tab) -> (Env.find local_env tab).(eval e)
-      | Len(tab) -> Array.fold_left (fun cpt _ -> cpt+1) 0 (Env.find local_env tab)
-      
+      | Incr(x) -> 
+        let get = Get(x) in
+        let value = eval get in
+        value+1
+      | Incr(x) -> 
+        let get = Get(x) in
+        let value = eval get in
+        value-1
+      | Elm(e, tab) ->
+        let get = Get(tab) in
+        let value = eval get in
+        value.(eval e)
+      | Len(tab) -> 
+        let get = Get(tab) in
+        let value = eval get in
+        Array.fold_left (fun cpt _ -> cpt+1) 0 value
       | Call(fname, args) ->
         let f = Env.find fname fun_env in
-        exec_with_locals f args local_env
+        let new_env = List.fold_left (fun g_env (x, e) -> Env.add x e g_env) glob_env local_env
+        exec_with_locals f args new_env
     in
         
-    let rec execi: instr -> unit = function
+    let rec execi: instr -> Result = function
       | Set(x, e) ->
         let v = eval e in
-        Env.add x e local_env
+        let _ = Env.add x e local_env in
+        RContinue
+      | Expr e -> RContinue
+      | Putchar e -> Printf.sprintf "%s\n" (value_to_string (eval e))
       | If(e, b1, b2) ->
         let v = eval e in
-        if v = 0
+        if v
         then execb b1
         else execb b2
-      | Switch(e, cases, default) ->
-        let v = eval e in
-        let rec scan = function
-          | [] -> execb default
-          | (n, s) :: cases -> if v = n then execb s else scan cases
-        in
-        scan cases
-      | Break -> RBreak
-      | Continue -> RContinue
       | While(e, b) as i -> 
         let v = eval e in
-        if v <> 0
+        if v
         then begin match execb b with
           | REnd | RContinue -> execi i
-          | RBreak -> REnd
           | RReturn _ as r -> r
         end
         else REnd
-      | FunDef(fname, params, locals, code) ->
-        Hashtbl.replace fenv fname { params; locals; code };
-        REnd
+      | For(init, test, iter, s) as i ->
+        let ini = execi init in
+        let tes = eval test in
+        if tes
+        then 
+          match execb s with
+          | REnd | RContinue -> 
+            let _ = execi iter in
+            execi i
+          | RReturn _ as r -> r
+        else
+          REnd
       | Return(e) -> RReturn(eval e)
-          
-    and execb: seq -> result = function
+      | Insert(pos, e, tab) -> 
+        let get = Get(tab) in
+        let t = eval get in
+        let new_t = Set(t.(eval pos), eval e) in
+        let _ = execi new_t in
+        let _ = Env.add tab t local_env in
+        RContinue
+    and execb: seq -> Result = function
       | [] -> REnd
       | i :: b' ->
         begin match execi i with
           | REnd -> execb b'
           | r -> r
         end
-
     in
-    execb s
+    
+    let ret : Result -> Value = function
+      | RReturn value -> value
+      | REnd | RContinue -> Cst 0
+    in
+    
+    ret (execb (func.code))
   in
   
   let ret_val = exec_with_locals (Env.find "main" fun_env) [] global_env in
