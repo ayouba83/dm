@@ -86,4 +86,4 @@ L'exécutable est créé dans le répertoire dm/minic/_build. Plus précisément
 Des fichiers de test sont donnés dans le repertoire dm/minic/tests, mais vous pouvez aussi créer de nouveaux fichiers sources dans ce repertoire pour tester vos programmes minic. \
 Pour tester sur un fichier source [tests/nom_du_fichier], tapez la commande suivante (en supposant que vous vous êtes placé dans le repertoire dm/minic):
 
->./_build/default/minic.exe tests/nom_du_fichier
+>./_build/default/src/minic.exe tests/nom_du_fichier
