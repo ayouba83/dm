@@ -12,9 +12,9 @@ let typecheck_program (prog: prog) =
   let line = ref 0 in
 
   let rec type_to_string = function
-      | Int -> "Int"
-      | Bool -> "Bool"
-      | Void -> "Void"
+      | Int -> "int"
+      | Bool -> "bool"
+      | Void -> "void"
       | Tab(t) -> (type_to_string t)^"[]"
       | Ptr(t) -> (type_to_string t)^"*"
   in
@@ -189,7 +189,7 @@ let typecheck_program (prog: prog) =
           let t = type_expr fdef local_env param_env e in
           match t with
           | Tab(typ) -> 
-            if Ptr(typ) <> fdef.return 
+            if Ptr(typ) <> fdef.return  (* Tab(void) est le type du tableau vi*)
             then failwith (Printf.sprintf "The declared return value of the function is %s but an array was returned at line %i" (type_to_string fdef.return) !line)
           | _ -> 
             if t <> fdef.return 

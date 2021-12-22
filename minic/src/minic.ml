@@ -16,6 +16,4 @@ let () =
   Printf.printf "Successfully checked program %s\n" file;
   
   (*return value*)
-  let return_value = Minic_interpreteur_imp.exec.program ast in
-  Printf.sprintf "Return value of program is %s" return_value;
   exit 0

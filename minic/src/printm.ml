@@ -76,17 +76,20 @@ and affiche_params_eff = function
 in
   
   (*affichage des variables globales du programme*)
-  
+  let rec af_tab = function
+  | Tab(typ) -> Printf.printf "[]"; af_tab(typ)
+  | _ -> ()
+  in
   let affiche_var_init (x, t, v) =
     begin match t with
     |Int |Bool |Void |Ptr(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf " = "; affiche_expr v;
-    |Tab(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf "[]"; Printf.printf " = "; affiche_expr v;
+    |Tab(typ) -> Printf.printf "%s %s" (typ_to_str t) x; af_tab(Tab(typ)); Printf.printf " = "; affiche_expr v;
     end
   in 
   let affiche_var_not_init (x, t) =
     begin match t with
     |Int |Bool |Void |Ptr(_) -> Printf.printf "%s %s" (typ_to_str t) x;
-    |Tab(_) -> Printf.printf "%s %s" (typ_to_str t) x; Printf.printf "[]";
+    |Tab(typ) -> Printf.printf "%s %s" (typ_to_str t) x; af_tab(typ);
     end
   in
    let affiche_var (x, t, v) =
