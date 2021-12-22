@@ -92,8 +92,12 @@ variable_decl:
 ;
 variable_decl_form:
 | typ=typ var=IDENT SET init=expression { (var, typ, Some(init)) }  (*  Int a = 1+2;  *)
-| typ=typ tab=IDENT LBRK RBRK SET BEGIN s=args_list END { let init = Array.of_list s in (tab, Tab(typ), (Some (Array(init)))) }   (*  Int tab[] = {a+3, fact(a-1), 0};  *)
+| vector=vector SET BEGIN s=args_list END { let init = Array.of_list s in (fst vector, snd vector, (Some (Array(init)))) }   (*  Int tab[] = {a+3, fact(a-1), 0};  *)
 | typ=typ var=IDENT { (var, typ, None) }  (*Int a;*)
+;
+vector:
+|typ=typ tab=IDENT LBRK RBRK { (tab, Tab(typ)) }
+|t=vector LBRK RBRK { (fst(t), Tab(snd t)) }
 ;
 (* declaration de paramètres de fonction *)
 param_list:
