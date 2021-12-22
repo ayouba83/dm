@@ -1,0 +1,26 @@
+int i = 2; int j = 2;
+
+bool test(int t[], bool b[]){
+    bool acc = false;
+    int j;
+    for(j=0; j!=4; j++){
+        acc = !(acc || b[i] && (t[i] <= 4));
+    }
+    return acc;
+}
+int main(){
+    int u = 2;
+    int v = 3;
+    int w = 4;
+    int t[] = {1, 2, 3, 4};
+    bool b[] = { true, false, true, true};
+    u = v|u;
+    v = w & v;
+    w = w^2;
+    if(test(t, b)){
+        return 2;
+    }
+    else{
+        return 1;
+    }
+}
