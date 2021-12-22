@@ -90,6 +90,8 @@ let ptr_bool = ['b']['o']['o']['l'][' ' '\t' '\r']*['*']
    À COMPLÉTER
 *)
 rule token = parse
+  | "/*" 
+      { comment lexbuf }
   | ['\n']
       { new_line lexbuf; token lexbuf }
   | [' ' '\t' '\r']+
@@ -169,7 +171,13 @@ rule token = parse
       { failwith ("Unknown character : " ^ (lexeme lexbuf)) }
   | eof
       { EOF }
-
+ and comment = parse
+  | "*/" 
+      { token lexbuf }
+  | _ 
+      { comment lexbuf }
+  | eof 
+      { failwith "commentaire non termin´e" }
 {
   let lexbuf = Lexing.from_channel(open_in Sys.argv.(1))
         
