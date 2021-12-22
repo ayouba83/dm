@@ -1,1 +1,1 @@
-src/minic_parser.ml: Lexing Minic_ast Obj Printf
+src/minic_parser.ml: Array Lexing Minic_ast Obj Printf

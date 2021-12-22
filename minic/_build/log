@@ -1,10 +1,10 @@
 # dune build
 # OCAMLPARAM: unset
-# Workspace root: /home/deba/Documents/DM_compilation/dm/minic
-$ /usr/bin/nproc > /tmp/duneba7e75.output 2> /dev/null
+# Workspace root: /home/deba/Documents/minicV3/dm/minic
+$ /usr/bin/nproc > /tmp/dune56e90b.output 2> /dev/null
 # Auto-detected concurrency: 4
 # disable binary cache
-$ /usr/bin/ocamlc.opt -config > /tmp/dune10a1a5.output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune233f68.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -25,18 +25,18 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune10a1a5.output
 #    map
 #      {
 #      "CAML_LD_LIBRARY_PATH" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/_build/install/default/lib/stublibs"
+#        "/home/deba/Documents/minicV3/dm/minic/_build/install/default/lib/stublibs"
 #      ; "DUNE_CONFIGURATOR" : "/usr/bin/ocamlc.opt"
 #      ; "INSIDE_DUNE" : "1"
 #      ;
 #      "MANPATH" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/_build/install/default/bin"
+#        "/home/deba/Documents/minicV3/dm/minic/_build/install/default/bin"
 #      ;
 #      "OCAMLFIND_IGNORE_DUPS_IN" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/_build/install/default/lib"
+#        "/home/deba/Documents/minicV3/dm/minic/_build/install/default/lib"
 #      ;
 #      "OCAMLPATH" :
-#        "/home/deba/Documents/DM_compilation/dm/minic/_build/install/default/lib"
+#        "/home/deba/Documents/minicV3/dm/minic/_build/install/default/lib"
 #      ; "OCAML_COLOR" : "always"
 #      ; "OPAMCOLOR" : "always"
 #      }
@@ -121,10 +121,3 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune10a1a5.output
 #      ; "ocamlobjinfo" : Some External "/usr/bin/ocamlobjinfo.opt"
 #      }
 #  }
-$ (cd _build/default && /usr/bin/ocamllex.opt -q -o src/minic_lexer.ml src/minic_lexer.mll)
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl src/minic_lexer.ml) > _build/default/src/.minic.eobjs/minic_lexer.ml.d
-$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I src/.minic.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o src/.minic.eobjs/byte/dune__exe__Minic_lexer.cmo -c -impl src/minic_lexer.ml)
-$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I src/.minic.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o src/.minic.eobjs/byte/dune__exe__Minic.cmo -c -impl src/minic.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I src/.minic.eobjs/byte -I src/.minic.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o src/.minic.eobjs/native/dune__exe__Minic.cmx -c -impl src/minic.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I src/.minic.eobjs/byte -I src/.minic.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o src/.minic.eobjs/native/dune__exe__Minic_lexer.cmx -c -impl src/minic_lexer.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -o src/minic.exe src/.minic.eobjs/native/dune__exe.cmx src/.minic.eobjs/native/dune__exe__Minic_ast.cmx src/.minic.eobjs/native/dune__exe__Minic_parser.cmx src/.minic.eobjs/native/dune__exe__Minic_lexer.cmx src/.minic.eobjs/native/dune__exe__Minic_typechecker.cmx src/.minic.eobjs/native/dune__exe__Minic.cmx)

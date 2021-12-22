@@ -1,0 +1,14 @@
+int i = 5;
+/* fonction test qui prand en paramètre:  */
+int test(int n, bool y){
+    if(n/2==true){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+/* fonction main qui prand en paramètre:  */
+
+int main(){
+    return test(2, true);
+}

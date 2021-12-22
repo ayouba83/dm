@@ -25,57 +25,6 @@ fun s ->
     try  Hashtbl.find h s
     with Not_found -> IDENT(s)
 
-(* Affiche la sequence de lexeme pour visualisation *)
-  let print_token = function
-    | CST n       -> Printf.printf "CST %i\n" n
-    | IDENT s     -> Printf.printf "IDENT %s\n" s
-    | INT         -> Printf.printf "INT\n"
-    | BOOL         -> Printf.printf "BOOL\n"
-    | VOID         -> Printf.printf "VOID\n"
-    | BOOL_CST b  -> Printf.printf "BOOL_CST %b\n" b
-    | RETURN      -> Printf.printf "RETURN\n"
-    | WHILE       -> Printf.printf "WHILE\n"
-    | FOR       -> Printf.printf "FOR\n"
-    | IF       -> Printf.printf "IF\n"
-    | ELSE       -> Printf.printf "ELSE\n"
-    | SEMI        -> Printf.printf "SEMI\n"
-    | SET         -> Printf.printf "SET\n"
-    | LPAR        -> Printf.printf "LPAR\n"
-    | RPAR        -> Printf.printf "RPAR\n"
-    | BEGIN       -> Printf.printf "BEGIN\n"
-    | END         -> Printf.printf "END\n"
-    | PUTCHAR     -> Printf.printf "PUTCHAR \n"
-  (* opérateurs arithemétiques *)
-    | MUL   -> Printf.printf "MUL\n"
-    | DIV   -> Printf.printf "DIV\n"
-    | PLUS  -> Printf.printf "PLUS\n"
-    | SUB   -> Printf.printf "SUB\n"
-  (* opérateurs de comparaison *)
-    | LT -> Printf.printf "LT\n"
-    | GT -> Printf.printf "GT\n"
-    | EQ -> Printf.printf "EQ\n"
-    | NE -> Printf.printf "NE\n"
-    | LE -> Printf.printf "PLUS\n"
-    | GE -> Printf.printf "PLUS\n"
-  (* opérateurs logiques (booléens) *)
-    | NOT  -> Printf.printf "NOT\n"
-    | ANDL -> Printf.printf "ANDL\n"
-    | ORL  -> Printf.printf "ORL\n"
-  (* opérateurs bit à bit *)
-    | AND -> Printf.printf "AND\n"
-    | OR  -> Printf.printf "OR"
-    | XOR -> Printf.printf "XOR\n"
-  (* sucres sytaxique *)
-    | INCR -> Printf.printf "INCR\n"
-    | DECR -> Printf.printf "DECR\n"
-    | COMA -> Printf.printf "COMA\n"
-    | PTRI -> Printf.printf "PTRI\n"
-    | PTRB -> Printf.printf "PTRB\n"
-    | RBRK -> Printf.printf "RBRK\n"
-    | LBRK -> Printf.printf "LBRK\n"
-    | LEN -> Printf.printf "LEN\n"
-    | _ -> Printf.printf "###\n"
-        
 }
 
 (* Règles auxiliaires *)
@@ -179,13 +128,5 @@ rule token = parse
   | eof 
       { failwith "commentaire non termin´e" }
 {
-  let lexbuf = Lexing.from_channel(open_in Sys.argv.(1))
-        
-  let rec loop () =
-    let t = token lexbuf in
-    if t <> EOF
-    then begin print_token t; loop () end
-      
-  let _ =
-    loop ()
+  
 }
