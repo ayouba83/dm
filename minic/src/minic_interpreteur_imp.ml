@@ -7,11 +7,11 @@ module Env = Map.Make(String)
 
 
 type value =      (*valeur de retour du programme*)
-  | Cst of int
-  | BCst of bool
-  | Array of expr array
+  | VCst of int
+  | VBCst of bool
+  | VArray of value array
 
-type Result =
+type result =
   | REnd 
   | RContinue
   | RReturn of value
@@ -27,11 +27,11 @@ type Result =
    environnement local qui est l'environnement des paramètres de la fonction.
 *) 
 
-let exec_program (programme : prog): string =  (*on execute un programme qui nous renvoie une valeur*)
+let exec_program (prog : prog): string =  (*on execute un programme qui nous renvoie une valeur*)
   let global_env = (*on définit l'environnement global comme l'environnement des variables du programme*)
     List.fold_left (fun env (x, _, v) -> 
                         match v with
-                        | None -> Env.add x 0 env
+                        | None -> Env.add x (Cst 0) env
                         | Some va -> Env.add x va env) Env.empty prog.globals
   in
   
@@ -39,31 +39,38 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
     List.fold_left (fun env fonc -> Env.add fonc.name fonc env) Env.empty prog.functions
   in
 
-  let rec exec_with_locals (func : fun_def) (param_values : value list) (glob_env : String*value) : string = (*on effectue les fonction une à une qui nous retourne des valeurs *)
+  let rec exec_with_locals (func : fun_def) (param_values : expr list) (glob_env : expr Env.t) : string = (*on effectue les fonction une à une qui nous retourne des valeurs *)
     
+    let fun_par = List.map2 (fun x y -> (x, y)) func.params param_values in
     let local_env_params = 
-      List.fold_left (fun env ((name, _), v) -> Env.add name v env) Env.empty (func.params, param_values)
+      List.fold_left (fun env ((name, _), v) -> Env.add name v env) Env.empty fun_par
     in
     
     let local_env =
       List.fold_left (fun env (x, _, v) -> 
                         match v with
-                        | None -> Env.add x 0 env
+                        | None -> Env.add x (Cst 0) env
                         | Some va -> Env.add x va env) local_env_params func.locals 
     in
     
     let rec eval: expr -> value = function
-      | Cst n -> n
-      | BCst b -> b
-      | Array arr -> arr
-      | Get x -> 
-        try Env.find local_env x 
-        with Not_Found -> Env.find glob_env x (*le typechecker est lancé avant et dit déjà si la var n'existe pas*)
+      | Cst n -> VCst n
+      | BCst b -> VBCst b
+      | Array arr -> VArray (Array.map eval arr)
+      | Get x ->
+        begin 
+          try
+            eval (Env.find x local_env)
+          with Not_found -> 
+            eval (Env.find x glob_env) (*le typechecker est lancé avant et dit déjà si la var n'existe pas*)
+        end
       | Par e -> eval e
       | Add(e1, e2) ->
         let v1 = eval e1 in
         let v2 = eval e2 in
-        v1 + v2
+        match v1, v2 with
+        | VCst va, VCst vb -> VCst(v1 + v2)
+        | _, _ -> failwith "Not good type"
       | Sub(e1, e2) ->
         let v1 = eval e1 in
         let v2 = eval e2 in
@@ -136,11 +143,11 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
         Array.fold_left (fun cpt _ -> cpt+1) 0 value
       | Call(fname, args) ->
         let f = Env.find fname fun_env in
-        let new_env = List.fold_left (fun g_env (x, e) -> Env.add x e g_env) glob_env local_env
+        let new_env = List.fold_left (fun g_env (x, e) -> Env.add x e g_env) glob_env local_env in
         exec_with_locals f args new_env
     in
         
-    let rec execi: instr -> Result = function
+    let rec execi: instr -> result = function
       | Set(x, e) ->
         let v = eval e in
         let _ = Env.add x e local_env in
@@ -180,7 +187,7 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
         let _ = execi new_t in
         let _ = Env.add tab t local_env in
         RContinue
-    and execb: seq -> Result = function
+    and execb: seq -> result = function
       | [] -> REnd
       | i :: b' ->
         begin match execi i with
@@ -189,7 +196,7 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
         end
     in
     
-    let ret : Result -> Value = function
+    let ret : result -> value = function
       | RReturn value -> value
       | REnd | RContinue -> Cst 0
     in
@@ -199,9 +206,8 @@ let exec_program (programme : prog): string =  (*on execute un programme qui nou
   
   let ret_val = exec_with_locals (Env.find "main" fun_env) [] global_env in
   let rec value_to_string v = function
-    | Cst a -> Printf.sprintf "%i" a
-    | BCst b -> match b with | true -> "true" | false -> "false"
-    | Array arr -> "["^(Array.fold_left (fun s v -> s^(value_to_string v)^", ") "" arr)^"]"
+    | VCst a -> Printf.sprintf "%i" a
+    | VBCst b -> match b with | true -> "true" | false -> "false"
+    | VArray arr -> "["^(Array.fold_left (fun s v -> s^(value_to_string v)^", ") "" arr)^"]"
   in
   value_to_string ret_val
-in
