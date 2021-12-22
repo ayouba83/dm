@@ -11,8 +11,11 @@ let () =
   Printm.print ast;
   Printf.printf
   "===============================================================================\n";
-
+  (* Type checker*)
   Minic_typechecker.typecheck_program ast;
   Printf.printf "Successfully checked program %s\n" file;
-  (* On pourrait ajouter ici des étapes suivantes. *)
+  
+  (*return value*)
+  let return_value = Minic_interpreteur_imp.exec.program ast in
+  Printf.sprintf "Return value of program is %s" return_value;
   exit 0
