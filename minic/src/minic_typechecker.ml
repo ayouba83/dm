@@ -123,8 +123,8 @@ let typecheck_program (prog: prog) =
       then 
         if t2 = Int
         then Int
-        else type_error (type_to_string t2) "Int" "operation"
-      else type_error (type_to_string t1) "Int" "operation"
+        else type_error (type_to_string t2) "Int" "byte_to_byte operation"
+      else type_error (type_to_string t1) "Int" "byte_to_byte operation"
     (* sucres sytaxiques *)
     | Incr(e) | Decr(e) ->
       let val_e = Get e in
