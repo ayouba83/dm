@@ -10,7 +10,10 @@ type token =
   | SEMI
   | RPAR
   | RETURN
+  | RBRK
   | PUTCHAR
+  | PTRI
+  | PTRB
   | PLUS
   | ORL
   | OR
@@ -18,9 +21,10 @@ type token =
   | NE
   | MUL
   | LT
-  | LSL
   | LPAR
+  | LEN
   | LE
+  | LBRK
   | INT
   | INCR
   | IF
@@ -39,7 +43,6 @@ type token =
   | BOOL_CST of (bool)
   | BOOL
   | BEGIN
-  | ASR
   | ANDL
   | AND
 

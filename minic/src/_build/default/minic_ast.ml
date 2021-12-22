@@ -2,6 +2,8 @@
 type typ =
   | Int
   | Bool
+  | Tab of typ  (* un tableau statique *)
+  | Ptr of typ  (* un pointeur de tableau *)
   | Void
 
 (* Représentation des expressions.
@@ -9,6 +11,7 @@ type typ =
 type expr =
   | Cst of int
   | BCst of bool
+  | Array of expr array     (* un tableau contient des expressions *)
   | Get of string
   | Call of string * expr list
   | Par of expr
@@ -29,12 +32,21 @@ type expr =
   | Not of expr
   | Andl of expr * expr
   | Orl of expr * expr
+  (* opérateurs bit à bit *)
+  | Xor of expr * expr
+  | And of expr * expr
+  | Or of expr * expr
  (* sucres sytaxiques *)
   | Incr of string
   | Decr of string
+  (* operation sur tableau *)
+  | Elm of expr * string (* accès à l'élément d'indice i *)
+  | Len of string (* renvoie la longueur d'un tableau *)
+  
 
 (* Représentation des instructions et séquences. *)
 type instr =
+  | Insert of expr * expr * string (* inserer un élément à une possition donnée dans un tableau*)
   | Putchar of expr
   | Set of string * expr      (*let x = 4* in *)
   | If  of expr * seq * seq
@@ -44,12 +56,15 @@ type instr =
   | Expr of expr
 and seq = instr list
 
+(* type pour une declaration de varibale: la valeur d'une variable est une expression *)
+type var_decl = string*typ*expr option
+
 (* Représentétion des fonctions. *)
 type fun_def = {
   name: string;
   params: (string * typ) list;
   return: typ;
-  locals: (string * typ) list;
+  locals: var_decl list;
   code: seq;
 }
 
@@ -58,6 +73,6 @@ type fun_def = {
    à chaque variable globale. Mais vous voudrez peut-être faire évoluer
    cela (et procéder de même pour les variables locales des fonctions). *)
 type prog = {
-  globals: (string * typ * int) list;
+  globals: var_decl list;
   functions: fun_def list;
 }

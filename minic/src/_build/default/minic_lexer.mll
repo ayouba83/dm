@@ -18,7 +18,8 @@ List.iter (fun (s, k) -> Hashtbl.add h s k)
     "else",     ELSE;
     "while",    WHILE;
     "putchar", PUTCHAR;
-    "for",      FOR
+    "for",      FOR;
+    "sizeof",       LEN
     ];
 fun s ->
     try  Hashtbl.find h s
@@ -64,13 +65,16 @@ fun s ->
     | AND -> Printf.printf "AND\n"
     | OR  -> Printf.printf "OR"
     | XOR -> Printf.printf "XOR\n"
-    | LSL -> Printf.printf "LSL\n"
-    | ASR -> Printf.printf "ASR\n"
   (* sucres sytaxique *)
     | INCR -> Printf.printf "INCR\n"
     | DECR -> Printf.printf "DECR\n"
     | COMA -> Printf.printf "COMA\n"
-  | _ -> Printf.printf "###\n"
+    | PTRI -> Printf.printf "PTRI\n"
+    | PTRB -> Printf.printf "PTRB\n"
+    | RBRK -> Printf.printf "RBRK\n"
+    | LBRK -> Printf.printf "LBRK\n"
+    | LEN -> Printf.printf "LEN\n"
+    | _ -> Printf.printf "###\n"
         
 }
 
@@ -79,6 +83,8 @@ let digit = ['0'-'9']
 let number = ['-']? digit+
 let alpha = ['a'-'z' 'A'-'Z']
 let ident = alpha (alpha | '_' | digit)*
+let ptr_int = ['i']['n']['t'][' ' '\t' '\r']*['*']
+let ptr_bool = ['b']['o']['o']['l'][' ' '\t' '\r']*['*']
 
 (* Règles de reconnaissance 
    À COMPLÉTER
@@ -92,6 +98,10 @@ rule token = parse
       { CST(int_of_string n) }
   | ident as id
       { keyword_or_ident id }
+  | ptr_bool
+        { PTRB }
+  | ptr_int
+        {PTRI} 
   | ";"
       { SEMI }
   | ","
@@ -102,6 +112,10 @@ rule token = parse
       { LPAR }
   | ")"
       { RPAR }
+  | "]"
+      { RBRK }
+  | "["
+      { LBRK }
   | "{"
       { BEGIN }
   | "}"
@@ -136,6 +150,7 @@ rule token = parse
       { ANDL }
   | "||"
       { ORL } 
+  
   (* opérateurs bit à bit *)
   | "&"
       { AND }
@@ -143,10 +158,7 @@ rule token = parse
       { OR }
   | "^"
       { XOR }
-  | "<<"
-      { LSL }
-  | ">>"
-      { ASR }
+  
   (* sucres sytaxique *)
   | "++"
       { INCR }
