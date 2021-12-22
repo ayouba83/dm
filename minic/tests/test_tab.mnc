@@ -1,7 +1,7 @@
 int PARAM[] = {1, 2, 3};
 int y = 2;
-int t[] = {1, 2, 3};
-int b[] = {};
+int t[][] = {{1}, {2}, {3}};
+int b[] = {1, 2};
  int* fact(int n, int y[], bool c[]){
     int x;
     int i;
@@ -14,11 +14,11 @@ int b[] = {};
                 n = n / 2;
             } else{
                 n = 0;
-                t[5] = 0;
+                t[5] = {0};
             }
             y[1] = 2;
         }
-        return t;
+        return t[0];
     } else{
         return b;
     }
