@@ -2,7 +2,7 @@
    Sémantique et interprétation de IMP
 *)
 
-(* open Minic_ast
+ open Minic_ast
 module Env = Map.Make(String)
 
 
@@ -256,4 +256,3 @@ let exec_program (prog : prog): string =  (*on execute un programme qui nous ren
     | VArray arr -> "["^(Array.fold_left (fun s v -> s^(value_to_string v)^", ") "" arr)^"]"
   in
   value_to_string ret_val
-*)
