@@ -4,7 +4,7 @@
 ### Auteurs: Ayouba DEBA & Corentin LANIER
 
 ## Description du projet:
-    Le but de ce projet est de réaliser un compilateur pour un sous-langage du langage C appelé Mini-C en appliquant non seulement ce que nous avons appris dans le cours de Compilation mais également nos connaissances de bases sur les langages de programmation et en particulier le langage C. Il faut retenir que dans les programmes minic de ce projet, toutes les declarations de variables sont faites en tête et on ne doit pas mélanger le code des fonctions et les déclarations de variables
+Le but de ce projet est de réaliser un compilateur pour un sous-langage du langage C appelé Mini-C en appliquant non seulement ce que nous avons appris dans le cours de Compilation mais également nos connaissances de bases sur les langages de programmation et en particulier le langage C. Il faut retenir que dans les programmes minic de ce projet, toutes les declarations de variables sont faites en tête et on ne doit pas mélanger le code des fonctions et les déclarations de variables
 
 ## Description du travail réalisé:
 ### Les différentes étapes du projet:
@@ -36,7 +36,7 @@ Nous avons étendu le langage en ajoutant plusieurs fonctionnalités. Tout d'abo
 ### 1) La boucle for:
 Nous avons ajouté dans le langage la possibilité de définir la boucle for qui correspond à un sucre syntaxique pour la boucle while. Nous avons préféré définir un nouveau symbole pour la bouble for dans l'AST pour que l'affichage de l'AST puisse être identique au programme source (mot par mot) au lieu de considérer la boucle for comme une sequence d'instructions (for(int i = 0; i!=0; i++) { instructions } <=> int i = 0; while(i!=0){ instructions i++;}). En suite dans chaque programme, nous avons ajouté le traitement correspondant au cas la boucle for.
 ### 2) Nouveaux opérateurs:
-    Nous avons ajouté dans le langage la possibilité d'utiliser tout les opérateurs arithmétiques, logiques booléens, et bit à bit. Pour cela, nous avons introduit dans l'AST un symbole pour chaque chaque opérateur. En suite dans chaque programme, nous avons ajouté le traitement qui correspond à chaque nouvel opérateur.
+Nous avons ajouté dans le langage la possibilité d'utiliser tout les opérateurs arithmétiques, logiques booléens, et bit à bit. Pour cela, nous avons introduit dans l'AST un symbole pour chaque chaque opérateur. En suite dans chaque programme, nous avons ajouté le traitement qui correspond à chaque nouvel opérateur.
 
 ### 3) Des tableaux statiques (homogènes):
 Nous avons ensuite ajouté dans le langage la possibilité de définir et manipuler des tableaux statiques (homogènes) à une dimension ou plusieurs. Le tableau doit être initialisé à la déclaration et la déclaration doit respecter la syntaxe du C suivante:
